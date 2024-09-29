@@ -1,0 +1,7 @@
+Registor is done
+login authentication-
+  password bcrpt
+  token created
+  i use wrong method instead of findone i use find method
+  video 2. 1.51.21 onError on img incom and NavHeader paragrahp incom
+  

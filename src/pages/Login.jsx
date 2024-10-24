@@ -1,13 +1,9 @@
 import React, { useContext, useState } from "react";
 import LoginButton from "../Component/Buttons/LoginButton";
-import Card from "../Component/Card";
-import sport from "../Image/sport.jpg";
-import political from "../Image/political.jpg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { storeInSession } from "../assets/sessionData.js";
 import { AuthContext } from "../assets/authContext.jsx";
-import Header from "../Component/Header.jsx";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,9 +24,6 @@ function Login() {
       }
       storeInSession("user", JSON.stringify(res.data.user));
       setUserAuth(res.data.user);
-      // console.log(token);
-
-      // console.log(JSON.stringify(res.data.user));
       if (token) navigate("/");
     } catch (error) {
       console.log(error);
@@ -45,22 +38,7 @@ function Login() {
               Welcome back, there is the latest news today!!
             </p>
           </div>
-          <div className=" p-4 flex gap-5 ">
-            <div>
-              <Card
-                img={sport}
-                heading={"this is heading for sports"}
-                para={"this is paragrah for deferent topic"}
-              />
-            </div>
-            <div>
-              <Card
-                img={political}
-                heading={"this is heading for sports"}
-                para={"this is paragrah for deferent topic"}
-              />
-            </div>
-          </div>
+          <div className=" p-4 flex gap-5 "></div>
         </div>
 
         <div className="  border-2 shadow-l border-black flex gap-6 p-10 w-[25rem] flex-col rounded-xl">

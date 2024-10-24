@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className=" text-white bg-[#2C2D42] bottom-0 w-full h-[15rem] px-10 py-5">
+    <footer className=" text-white bg-[#2C2D42] bottom-0 w-full h-[15rem] px-10 py-5 stick ">
       <div className="flex justify-between">
         <div>
           <h1>Neuzy</h1>

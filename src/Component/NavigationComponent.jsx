@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-
+export let activeTabRef
 function NavigationComponent({
   route,
   defaultActiveState = 0,
@@ -9,7 +9,7 @@ function NavigationComponent({
   //this is for hr
   let activeUnderlineRef = useRef();
   //this is for useEffect to work
-  let activeTabRef = useRef();
+   activeTabRef = useRef();
 
   const [activeState, setActiveState] = useState(defaultActiveState);
   const handleActiveState = (btn, i) => {

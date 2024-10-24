@@ -73,8 +73,8 @@ export const userLogin = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: "user login successfully",
     success: true,
-    token,
     user: {
+      token:token,
       fullname: user.personal_info.fullname,
       username: user.personal_info.username,
       profile_img: user.personal_info.profile_img,

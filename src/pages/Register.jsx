@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../Component/Buttons/Button";
-import Card from "../Component/Card";
-import political from "../Image/political.jpg";
-import entertainment from "../Image/entertainment.jpg";
-import sport from "../Image/sport.jpg";
 import LoginButton from "../Component/Buttons/LoginButton";
 import axios from "axios";
 import {ToastContainer,toast} from 'react-toastify'
@@ -105,21 +101,7 @@ function Register() {
         </div>
         <hr />
         <div className="flex justify-around py-10">
-          <Card
-            img={sport}
-            heading={"this is heading for sports"}
-            para={"this is paragrah for deferent topic"}
-          />
-          <Card
-            img={entertainment}
-            heading={"this is for entertainment"}
-            para={"this is paragrah for deferent topic"}
-          />
-          <Card
-            img={political}
-            heading={"this is for political"}
-            para={"this is paragrah for deferent topic"}
-          />
+         
         </div>
       </div>
     </>

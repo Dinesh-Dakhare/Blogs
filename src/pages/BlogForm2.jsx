@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import axios from "axios";
 import blogBanner from "../Image/blogBanner.png";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Tags from "../Component/Tags.jsx";
 import useBlog from "../Context/BlogContext.jsx";
 import { useNavigate } from "react-router-dom";
-
+import { AuthContext } from "../assets/authContext.jsx";
 function BlogForm2() {
   const navigate = useNavigate();
   let {
@@ -14,7 +14,9 @@ function BlogForm2() {
     blog: { title, banner, des, content, tags },
     setBlog,
   } = useBlog();
-
+  const {
+    userAuth: { token },
+  } = useContext(AuthContext);
   const tagLimit = 10;
 
   //{
@@ -33,14 +35,14 @@ function BlogForm2() {
   };
   //}
   const handleTags = (e) => {
-    if (e.key == "," || e.key == "Enter") {
+    if (e.keyCode == 188 || e.keyCode == 13) {
       e.preventDefault();
       let tag = e.target.value;
       if (tags.length < tagLimit) {
         if (!tags.includes(tag) && tag.length) {
           setBlog({ ...blog, tags: [...tags, tag] });
         }
-        e.target.value = " ";
+        e.target.value = "";
       }
     }
   };
@@ -52,6 +54,7 @@ function BlogForm2() {
     if (!des) toast.error("description is required");
     if (!tags) toast.error("tags is required");
 
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
@@ -59,18 +62,24 @@ function BlogForm2() {
     formData.append("banner", banner);
     formData.append("tags", tags);
 
-    console.log(formData);
-
+    let loadingToast = toast.loading("Publishing....");
     try {
       const res = await axios.post(
         "http://localhost:5000/api/v1/blog/createBlog",
-        formData
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      console.log(res);
 
       if (res) {
+        toast.dismiss(loadingToast);
         toast.success("blog create sucessfully");
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 500);
       }
     } catch (error) {
       console.log(error);
@@ -100,7 +109,6 @@ function BlogForm2() {
               name="banner"
               hidden
               accept=".jpg,.png,.jpeg"
-           
               onChange={(e) => setBlog({ ...blog, banner: e.target.files[0] })}
             />
           </label>
@@ -131,7 +139,6 @@ function BlogForm2() {
               type="text"
               defaultValue={des}
               className="bg-gray-200 w-full h-[20rem] shadow-md  rounded-md p-5 hover:bg-opacity-50 hover:border-2 text-black"
-              // onChange={(e) => setDes(e.target.value)}
               onChange={(e) => setBlog({ ...blog, des: e.target.value })}
             />
           </label>

@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import { AuthContext } from "../assets/authContext.jsx";
 import { BsBell } from "react-icons/bs";
 
 import UserNavigationPanel from "./UserNavigationPanel.jsx";
 function Header() {
+  const navigation =useNavigate()
   const {
     userAuth,
     userAuth: { token, profile_img },
@@ -13,25 +14,20 @@ function Header() {
   const handleDropDown = () => {
     setIsOpen(!isOpen);
   };
+  const handleSearchInput = (e)=>{
+let query= e.target.value
+navigation(`/search/${query}`)
+
+  }
   return (
     <section className="font-medium text-center text-xl text-white bg-[#2C2D42] px-10 h-[4rem] flex gap-5 justify-between justify-item-center items-center ">
       <div>
         <NavLink to={"/"}>Blogger</NavLink>
       </div>
-      <nav>
-        <ul className="flex gap-5 ml-[8rem]">
-          <NavLink to={"/business"}>Business</NavLink>
-          <NavLink to={"/entertainment"}>Entertainment</NavLink>
-          <NavLink to={"/finance"}>Finance</NavLink>
-          <NavLink to={"/life"}>Life</NavLink>
-          <NavLink to={"/political"}>Political</NavLink>
-          <NavLink to={"/sport"}>Sport</NavLink>
-          <NavLink to={"/health"}>Health</NavLink>
-        </ul>
-      </nav>
+
       <div>
         <ul className="flex gap-5">
-          <h1>Q</h1>
+          <div><input type="text"className="rounded-xl px-2 placeholder:text-sm" placeholder="Search" onKeyDown={handleSearchInput}/></div>
           <h1>|</h1>
           {token ? (
             <>
@@ -49,7 +45,7 @@ function Header() {
                     alt="profile img"
                     className="rounded-full"
                   />
-                  <UserNavigationPanel value={isOpen}/>
+                  <UserNavigationPanel value={isOpen} />
                 </div>
               </NavLink>
             </>

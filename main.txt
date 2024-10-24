@@ -1,7 +1,10 @@
 Registor is done
 login authentication-
-  password bcrpt
-  token created
-  i use wrong method instead of findone i use find method
-  video 2. 1.51.21 onError on img incom and NavHeader paragrahp incom
-  
+  password bcrpt---👍
+  token created---👍
+  i use wrong method instead of findone i use find method---👍
+  video 2. 1.51.21 onError on img incom and NavHeader paragrahp incom---👍
+  improvment needed in creatig blog --- 👍
+diable class needed to add in login ----
+workind on draft video2 ---
+login page test is left ---

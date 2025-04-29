@@ -1,5 +1,5 @@
 import React from "react";
-import createDate from "../assets/date.js";
+import {createDate} from "../assets/date.js";
 function MinimalCart({ content, auth, index }) {
   const { blog_id, title, publishedAt } = content;
   const { fullname, username, profile_img } = auth;

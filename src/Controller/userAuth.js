@@ -1,4 +1,3 @@
-import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
 import User from "../Model/User.js";
 import { AppError } from "../utility/appError.js";
@@ -74,10 +73,44 @@ export const userLogin = catchAsync(async (req, res, next) => {
     message: "user login successfully",
     success: true,
     user: {
-      token:token,
+      token: token,
       fullname: user.personal_info.fullname,
       username: user.personal_info.username,
       profile_img: user.personal_info.profile_img,
     },
+  });
+});
+
+export const changePassword = catchAsync(async (req, res, next) => {
+  const { id } = req.user;
+  const { currentPassword, newPassword } = req.body;
+  console.log(currentPassword, newPassword, id);
+
+  const user = await User.findById(id);
+  console.log(user.personal_info.password);
+
+  if (!user) {
+    return res.status(404).json({
+      message: "user doesn't exist",
+    });
+  }
+  // compare password
+  const isMatch = await bcrypt.compare(
+    currentPassword,
+    user.personal_info.password
+  );
+  if (!isMatch) {
+    return res.status(404).json({
+      message: "incorrect password",
+    });
+  }
+  //hashed new password
+
+  const hashedpassword = await bcrypt.hash(newPassword, 12);
+
+  user.personal_info.password = hashedpassword;
+  await user.save();
+  res.status(200).json({
+    message: "password update sussesfully",
   });
 });

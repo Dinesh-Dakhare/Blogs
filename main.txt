@@ -8,3 +8,7 @@ login authentication-
 diable class needed to add in login ----
 workind on draft video2 ---
 login page test is left ---
+similar function in Blogs.jsx need to fixed it re render  problem
+banner is not display in blogfrom
+working create blog and edit blog -----
+like function is not working cannot able to get id from frontend 

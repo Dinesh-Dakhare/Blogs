@@ -5,7 +5,9 @@ import { contextEdite } from "../pages/Editor.jsx";
 import NavHeader from "./NavHeader.jsx";
 import EditorJS from "@editorjs/editorjs";
 import { tools } from "./ToolsEditor.jsx";
+import { useParams } from "react-router-dom";
 function BlogEditor() {
+  const {blog_Id}= useParams
   const {
     blog,
     blog: { title, banner, content, tags, des },

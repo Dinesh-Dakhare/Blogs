@@ -14,7 +14,7 @@ function UserNavigationPanel({value}) {
   };
   return (
     <div className={`bg-white flex-col justify-start items-center p-1  w-[9rem] border rounded-lg absolute right-0 top-14 shadow-xl ${value?'block':'hidden'}`}>
-      <NavLink className="flex  gap-2 hover:bg-slate-300 items-center p-2" to={'/blog'}>
+      <NavLink className="flex  gap-2 hover:bg-slate-300 items-center p-2" to={'/blog/edit'}>
         <BsFileEarmarkText className="text-black" />
         <p className="text-stone-700 ">write</p>
       </NavLink>
@@ -26,14 +26,14 @@ function UserNavigationPanel({value}) {
       </NavLink>
       <br />
       <NavLink
-        to={`dashboard/blogs`}
+        to={`/settings/dashboard/blogs`}
         className="hover:bg-slate-300 text-black font-normal me-[1.7rem]"
       >
         Dashboard
       </NavLink>
       <br />
       <NavLink
-        to={"/settings/edit-profile"}
+        to={"/settings"}
         className="hover:bg-slate-300 text-black font-normal me-16"
       >
         setting

@@ -1,11 +1,11 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import blogBanner from "../Image/blogBanner.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Tags from "../Component/Tags.jsx";
 import useBlog from "../Context/BlogContext.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../assets/authContext.jsx";
 function BlogForm2() {
   const navigate = useNavigate();
@@ -17,9 +17,10 @@ function BlogForm2() {
   const {
     userAuth: { token },
   } = useContext(AuthContext);
-  const tagLimit = 10;
+  let tagLimit = 10;
+  const [taglimit, setTagLimit] = useState(tagLimit);
+  const { blog_id } = useParams();
 
-  //{
   // for enter key on title
   const handleTitleKeyDown = (e) => {
     if (e.keyCode == 13) {
@@ -34,14 +35,13 @@ function BlogForm2() {
     setBlog({ ...blog, title: e.target.value });
   };
   //}
+  // taglimit useState is use because it is and condition and i need global variable to click the statement.
   const handleTags = (e) => {
-    if (e.keyCode == 188 || e.keyCode == 13) {
+    if (e.keyCode === 188 || e.keyCode === 13) {
       e.preventDefault();
-      let tag = e.target.value;
-      if (tags.length < tagLimit) {
-        if (!tags.includes(tag) && tag.length) {
-          setBlog({ ...blog, tags: [...tags, tag] });
-        }
+      let tag = e.target.value.trim();
+      if (tags.length < taglimit && !tags.includes(tag) && tag.length) {
+        setBlog({ ...blog, tags: [...tags, tag] });
         e.target.value = "";
       }
     }
@@ -54,13 +54,13 @@ function BlogForm2() {
     if (!des) toast.error("description is required");
     if (!tags) toast.error("tags is required");
 
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
     formData.append("des", des);
     formData.append("banner", banner);
     formData.append("tags", tags);
+    formData.append("Id", blog_id);
 
     let loadingToast = toast.loading("Publishing....");
     try {
@@ -80,11 +80,38 @@ function BlogForm2() {
         setTimeout(() => {
           navigate("/");
         }, 500);
+        setBlog(" ");
+      }
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      console.log(error);
+    }
+  };
+  const getBlogData = async () => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/v1/blog/getBlog",
+        { blog_id: blog_id }
+      );
+      if (data) {
+        setBlog({
+          title: data.blog.title,
+          des: data.blog.des,
+          content: data.blog.content,
+          tags: data.blog.tags,
+          // banner: data.blog.banner,
+        });
       }
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    if (blog_id) {
+      getBlogData();
+    }
+  }, []);
+
   return (
     <section>
       <form
@@ -94,15 +121,26 @@ function BlogForm2() {
       >
         <div className=" relative aspect-video border-2 shadow-lg border-black">
           <label htmlFor="imgInput">
-            {banner ? (
+            {banner && (
               <img
                 src={URL.createObjectURL(banner)}
                 alt="img for blog"
                 className="z-20"
               />
-            ) : (
+            )}
+            {!banner && (
               <img src={blogBanner} alt="img for blog" className="z-20" />
             )}
+            {/* {banner ? (
+              <img
+                src={URL.createObjectURL(banner)}
+              
+                alt="img for blog"
+                className="z-20"
+              />
+            ) : (
+              <img src={blogBanner} alt="img for blog" className="z-20" />
+            )} */}
             <input
               id="imgInput"
               type="file"
@@ -119,6 +157,7 @@ function BlogForm2() {
           className="text-4xl p-2 shadow-md border-2 font-medium w-full outline-none resize-none mt-10 leading-tight"
           onKeyDown={handleTitleKeyDown}
           onChange={handleTitleChange}
+          value={title}
           required
         ></textarea>
         <hr className="w-full opacity-10 my-5" />
@@ -126,6 +165,7 @@ function BlogForm2() {
           <textarea
             type="text"
             placeholder="Content..."
+            value={content}
             onChange={(e) => setBlog({ ...blog, content: e.target.value })}
             className="bg-gray-200 w-full h-[20rem]  rounded-md p-5 hover:bg-opacity-50 hover:border-2 text-black"
           />

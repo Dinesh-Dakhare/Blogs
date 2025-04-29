@@ -8,6 +8,8 @@ import MinimalCartSmall from "../Component/MinimalCartSmall.jsx";
 import { activeTabRef } from "../Component/NavigationComponent.jsx";
 import NoDataMessage from "../Component/NoDataMessage.jsx";
 import { BsGraphUpArrow } from "react-icons/bs";
+import { GoArrowLeft } from "react-icons/go";
+import { GoArrowRight } from "react-icons/go";
 // import { FilterPagination } from "../Component/FilterPagination.js";
 function Home() {
   const [blog, setBlog] = useState(null);
@@ -188,7 +190,7 @@ setPage(page-1)
         </div>
       </section>
       <div className="flex justify-center">
-        <button onClick={handlePreviewsPage}>left</button>
+        <button onClick={handlePreviewsPage}><GoArrowLeft /></button>
         {totalPages &&
           totalPages.map((el, i) => {
             return (
@@ -201,7 +203,7 @@ setPage(page-1)
               </button>
             );
           })}
-        <button onClick={handleNextPage}>right</button>
+        <button onClick={handleNextPage}><GoArrowRight /></button>
       </div>
     </>
   );

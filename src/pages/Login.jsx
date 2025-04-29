@@ -19,12 +19,12 @@ function Login() {
         email,
         password,
       });
-      if (res.ok) {
-        res.status(200).json({ message: "user login successfully" });
+      if (res.status === 200) {
+        storeInSession("user", JSON.stringify(res.data.user));
+
+        setUserAuth(res.data.user);
+        navigate("/");
       }
-      storeInSession("user", JSON.stringify(res.data.user));
-      setUserAuth(res.data.user);
-      if (token) navigate("/");
     } catch (error) {
       console.log(error);
     }

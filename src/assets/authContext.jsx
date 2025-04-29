@@ -10,6 +10,8 @@ export const AuthContextProvider = ({ children }) => {
     userInSession
       ? setUserAuth(JSON.parse(userInSession))
       : setUserAuth({ token: null });
+    
+      
       //when i dont define token null then after logout website crashes
   }, []);
   return (
